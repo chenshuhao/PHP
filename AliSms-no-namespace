@@ -7,33 +7,11 @@
 class AliSms {
 /**
 * 阿里大鱼(www.alidayu.com)短信发送类
-* 适用ThinkPHP版本3.2
-* 请将本类放在ThinkPHP\Library\Org\Util目录下
-* 使用方法1：
+* 使用方法：
 ---------------------code begin---------------------
 $alisms = new AliSms("appkey","secretkey");
 $result = $alisms->sign('短信签名')->data(短信模板变量[数组])->code('短信模板ID')->send('短信接收号码');
 ---------------------code   end---------------------
-
-* 使用方法2：
-首先在配置文件中增加配置项：
-'ALI_SMS_APP_KEY'=>'appkey',
-'ALI_SMS_SECRET_KEY'=>'secretkey',
-
-然后如下使用：
----------------------code begin---------------------
-$alisms = new AliSms('短信模板ID',短信模板变量[数组],'短信签名');
-$result = $alisms->send('短信接收号码');
----------------------code   end---------------------
-或：
----------------------code begin---------------------
-$result = (new AliSms('短信模板ID',短信模板变量[数组],'短信签名'))->send('短信接收号码');
----------------------code   end---------------------
-或：
----------------------code begin---------------------
-new AliSms('短信模板ID',短信模板变量[数组],'短信签名','短信接收号码',$result);
----------------------code   end---------------------
-以上最后例子中$result传递的是变量地址
 
 返回值：
 参考 http://open.taobao.com/doc2/apiDetail.htm?spm=a219a.7629065.0.0.h5jQfz&apiId=25450&docType= 的返回示例
@@ -154,22 +132,10 @@ new AliSms('短信模板ID',短信模板变量[数组],'短信签名','短信接
 		}
 	}
 	
-	public function __construct($param1 = "",$param2 = "",$param3 = "",$param4 = "",&$result){
-		if($param1!=="" && $param2!=="" && $param3==="" && is_string($param1) && is_string($param2)){
+	public function __construct($param1 = "",$param2 = ""){
+		if($param1!=="" && $param2!=="" && is_string($param1) && is_string($param2)){
 			$this->appkey($param1);
 			$this->secret($param2);
-		}
-		else{
-			$this->appkey(C("ALI_SMS_APP_KEY"));
-			$this->secret(C("ALI_SMS_SECRET_KEY"));
-		}
-		if(is_array($param2) && $param3!==""){
-			$this->code($param1);
-			$this->data($param2);
-			$this->sign($param3);
-			if($param4!==""){
-				$result = $this->send($param4);
-			}
 		}
 	}
 	
